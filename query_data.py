@@ -2,23 +2,23 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import ChatVectorDBChain
 
-_template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-You can assume the question about the most recent state of the union address.
-Chat History:
+_template = """Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
+Vous pouvez assumer la question sur les voeux présidentiels le plus récent.
+Historique des discussions:
 {chat_history}
-Follow Up Input: {question}
-Standalone question:"""
+Entrée de suivi: {question}
+Question autonome:"""
 CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(_template)
 
-template = """You are an AI assistant for answering questions about the most recent state of the union address.
-You are given the following extracted parts of a long document and a question. Provide a conversational answer.
-If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not about the most recent state of the union, politely inform them that you are tuned to only answer questions about the most recent state of the union.
+template = """Vous êtes un assistant IA pour répondre aux questions sur les voeux présidentiels le plus récent.
+On vous donne les parties extraites suivantes d'un long document et une question. Fournissez une réponse conversationnelle.
+Si vous ne connaissez pas la réponse, dites simplement "Hmm, je ne suis pas sûr". N'essayez pas d'inventer une réponse.
+Si la question ne porte pas sur les voeux présidentiels les plus récent, informez-les poliment que vous êtes réglé pour ne répondre qu'aux questions sur les voeux présidentiels les plus récents.
 Question: {question}
 =========
 {context}
 =========
-Answer in Markdown:"""
+Réponse en Markdown:"""
 QA_PROMPT = PromptTemplate(template=template, input_variables=["question", "context"])
 
 
