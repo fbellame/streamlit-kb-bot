@@ -7,7 +7,7 @@ from streamlit_chat import message
 import os
 from ingest_data import embed_doc
 import openai
-from query_data import get_chain, QA_PROMPT, CONDENSE_QUESTION_PROMPT, _template
+from query_data import get_chain
 import pickle
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -60,11 +60,11 @@ if st.button("Soumettre question") and vectorstore is not None:
     print(len(docs))
 
     if user_input:
-        output = chain.run(input=user_input, vectorstore=vectorstore, context=docs[:2], chat_history=[], question=user_input, 
-                           QA_PROMPT=QA_PROMPT, CONDENSE_QUESTION_PROMPT=CONDENSE_QUESTION_PROMPT, template=_template)
+        chat_history = []
+        output = chain({"question": user_input, "chat_history": chat_history})
 
         st.session_state.past.append(user_input)
-        st.session_state.generated.append(output)
+        st.session_state.generated.append(output["answer"])
 
         print(st.session_state.generated)
 
