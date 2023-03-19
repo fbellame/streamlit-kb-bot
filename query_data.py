@@ -2,6 +2,9 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import ChatVectorDBChain
 
+from callback import MyCallbackHandler
+from langchain.callbacks.base import CallbackManager
+
 _template = """Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
 Vous pouvez assumer la question sur les voeux présidentiels le plus récent.
 Historique des discussions:
@@ -23,11 +26,14 @@ QA_PROMPT = PromptTemplate(template=template, input_variables=["question", "cont
 
 
 def get_chain(vectorstore):
-    llm = OpenAI(temperature=0)
+
+    manager = CallbackManager([MyCallbackHandler()])
+
+    llm = OpenAI(temperature=0, callback_manager=manager)
     qa_chain = ChatVectorDBChain.from_llm(
         llm,
         vectorstore,
         qa_prompt=QA_PROMPT,
-        condense_question_prompt=CONDENSE_QUESTION_PROMPT,
+        condense_question_prompt=CONDENSE_QUESTION_PROMPT
     )
     return qa_chain
