@@ -57,8 +57,6 @@ if st.button("Soumettre question") and vectorstore is not None:
 
     docs = vectorstore.similarity_search(user_input)
 
-    print(len(docs))
-
     if user_input:
         output = chain.run(input=user_input, vectorstore=vectorstore, context=docs[:2], chat_history=[], question=user_input, 
                            QA_PROMPT=QA_PROMPT, CONDENSE_QUESTION_PROMPT=CONDENSE_QUESTION_PROMPT, template=_template)
@@ -67,12 +65,6 @@ if st.button("Soumettre question") and vectorstore is not None:
         st.session_state.generated.append(output)
 
         print(st.session_state.generated)
-
-        if "#" in st.session_state.generated[-1]:
-            st.session_state.generated[-1] = st.session_state.generated[-1].split("#")[0]
-
-        print(st.session_state.generated)
-        print(type(st.session_state.generated))
 
     placeholder = ""
 

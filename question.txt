@@ -1,0 +1,7 @@
+importer le fichier election-francaise.txt
+qu'en est il de la Covid?
+
+importer le fichier covid.txt
+
+combien de décès de la Covid au 30 avril 2020?
+
