@@ -5,10 +5,14 @@ from langchain.chains import ChatVectorDBChain
 from callback import MyCallbackHandler
 from langchain.callbacks.base import CallbackManager
 
+#########################################################
+#
+# PROMTP ENGEREERING
+#
 _template = """Compte tenu de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome.
 Vous pouvez assumer la question sur les voeux présidentiels le plus récent.
 Historique des discussions:
-{chat_history}
+{chat_history} 
 Entrée de suivi: {question}
 Question autonome:"""
 CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(_template)
@@ -23,6 +27,8 @@ Question: {question}
 =========
 Réponse en Markdown:"""
 QA_PROMPT = PromptTemplate(template=template, input_variables=["question", "context"])
+
+#########################################################
 
 
 def get_chain(vectorstore):

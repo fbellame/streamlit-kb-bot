@@ -55,9 +55,16 @@ if st.button("Soumettre question") and vectorstore is not None:
 
     chain = get_chain(vectorstore)
 
+    #
+    # COSINE SIMILARITY -> RECHERCHE DANS LE VECTOR STORE
+    #
     docs = vectorstore.similarity_search(user_input)
 
     if user_input:
+        
+        #
+        # APPEL A OPENAI AVEC LE PROMTP CONTENANT les 2 DOCUMENTS TROUVÉS ET LA QUESTION
+        #
         output = chain.run(input=user_input, vectorstore=vectorstore, context=docs[:2], chat_history=[], question=user_input, 
                            QA_PROMPT=QA_PROMPT, CONDENSE_QUESTION_PROMPT=CONDENSE_QUESTION_PROMPT, template=_template)
 

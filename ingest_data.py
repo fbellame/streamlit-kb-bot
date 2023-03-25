@@ -8,18 +8,21 @@ import os
 
 def embed_doc(directory_path):
     if len(os.listdir(directory_path)) > 0:
+        #
+        # CHARGER LE FICHIER TEXTE DE DONNEES
         loader = DirectoryLoader(directory_path, glob="**/*.*")
 
         raw_documents = loader.load()
-        print(len(raw_documents))
+        
+        # SPLITTER EN CHUNK DE 1000 TOKENS
         text_splitter = RecursiveCharacterTextSplitter(chunk_size = 1000, chunk_overlap=0, length_function= len)
         documents = text_splitter.split_documents(raw_documents)
 
-        # Load Data to vectorstore
+        # EMBEDDED LES DOCUMENTS CHUNKS
         embeddings = OpenAIEmbeddings()
         vectorstore = FAISS.from_documents(documents, embeddings)
 
-        # Save vectorstore
+        # SAUVEGARDER DANS LE VECTOR STORE
         with open("vectorstore.pkl", "wb") as f:
             pickle.dump(vectorstore, f)
 
