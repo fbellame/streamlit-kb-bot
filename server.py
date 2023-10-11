@@ -16,7 +16,7 @@ openai.organization = os.getenv("MY_ORGANISATION")
 st.set_page_config(page_title="Bot KB Demo", page_icon=":robot:")
 st.header("Bot KB Demo")
 
-uploaded_file = st.file_uploader("Télécharger votre base de connaissances pour votre chat bot", type=None, accept_multiple_files=False, key=None,
+uploaded_file = st.file_uploader("Télécharger votre base de connaissances pour votre chat bot (document PDF)", type=None, accept_multiple_files=False, key=None,
                                  help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible")
 
 if uploaded_file is not None and uploaded_file not in os.listdir("data"):
@@ -27,7 +27,7 @@ if uploaded_file is not None and uploaded_file not in os.listdir("data"):
 
     st.write("Base de connaissances téléchargée avec succès!")
 
-    with st.spinner("Embedding de la base de connaissance..."):
+    with st.spinner("Création de la base de connaissances..."):
         index = embed_doc("data")
 
 vectorstore = None
